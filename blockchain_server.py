@@ -79,11 +79,11 @@ class Blockchain:
     # * output-boolean
     # * add a new Block to chain, return appending status
     def add_block(self, block, proof):
-        previous_hash = self.last_block.hash 
+        previous_hash = self.last_block.hash
         # if the to-be added block is invalid
         # return False without adding that block
         if (previous_hash != block.previous_hash
-            ) or (not self.is_valid_proof(block, proof)):
+        ) or (not self.is_valid_proof(block, proof)):
             return False
 
         block.hash = proof
@@ -96,8 +96,8 @@ class Blockchain:
     # * output-boolean
     # * find out whether a Hash is eligible for this block
     def is_valid_proof(self, block, proof):
-        return (proof.startswith("0" * Blockchain.difficulty) and 
-            proof == block.compute_hash())
+        return (proof.startswith("0" * Blockchain.difficulty) and
+                proof == block.compute_hash())
 
     # * input-None
     # * output-boolean
@@ -108,8 +108,8 @@ class Blockchain:
         for block in self.chain:
             block_hash = block.hash
             delattr(block, "hash")
-            if not self.is_valid_proof(block, block_hash) or\
-                previous_hash != block.previous_hash:   
+            if not self.is_valid_proof(block, block_hash) or \
+                    previous_hash != block.previous_hash:
                 return False
             block.hash, previous_hash = block_hash, block_hash
         return True
@@ -167,27 +167,27 @@ app = Flask(__name__)
 blockchain = Blockchain()
 
 
+
 # the address to other participating members of the network
 peers = set()
 
 
 # endpoint to submit a new transaction. This will be used by
 # our application to add new data (posts) to the blockchain
+
 @app.route('/new_transaction', methods=['GET', 'POST'])
 def new_transaction():
-    print(1)
+
     tx_data = request.get_json()
-    print(tx_data)
- 
+
     tx_data["timestamp"] = time.time()
- 
+
     if blockchain.add_transaction(tx_data):
         print("Success")
         return "Success", 201
     else:
         print("Failed")
         return "Invalid transaction data", 404
-
 
 # endpoint to return the node's copy of the chain.
 # Our application will be using this endpoint to query
@@ -209,6 +209,7 @@ def mine_unconfirmed_transactions():
     if result == 0:
         return "No transactions to mine"
     return "Block #{} is mined.".format(result)
+
 
  
 # endpoint to add new peers to the network.
@@ -267,7 +268,6 @@ def announce_new_block(block):
         requests.post(url, data=json.dumps(block.__dict__, sort_keys=True))
 
 app.run(debug=True, port=8000)
-
 
 
 # debug/test code
