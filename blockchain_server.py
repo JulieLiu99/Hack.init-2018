@@ -94,18 +94,6 @@ class Blockchain():
         return (proof.startswith("0" * Blockchain.difficulty) and 
             proof == block.compute_hash())
 
-    # * input-dict
-    # * output-boolean
-    # * add unprocessed transaction to Blockchain, return status
-    #!!!!!!!not debugged!!!!!!!
-    def add_transaction(self, transaction):
-        if type(transaction) == dict and check_transaction(transaction):
-            self.unconfirmed_transactions = transaction
-            self.mine()
-            return True
-        else:
-            return False
-
     # * input-None
     # * output-boolean
     # * check whether the current Blockchain is valid
@@ -132,6 +120,17 @@ class Blockchain():
         condition.append(4<=len(transaction)<=5)
         return all(condition)
 
+    # * input-dict
+    # * output-boolean
+    # * add unprocessed transaction to Blockchain, return status
+    #!!!!!!!not debugged!!!!!!!
+    def add_transaction(self, transaction):
+        if type(transaction) == dict and check_transaction:
+            self.unconfirmed_transactions = transaction
+            return True
+        else:
+            return False
+
     # * input-None
     # * output-integer
     # * mine transactions to a new block
@@ -148,6 +147,7 @@ class Blockchain():
         self.unconfirmed_transactions = {}
         return new_block.index
 
+flask
         
 
 
