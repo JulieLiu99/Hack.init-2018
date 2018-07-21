@@ -46,6 +46,7 @@ class Blockchain():
         # each time we create a Blockchain we always want to
         # create a default genesis block 0
         self.create_genesis_block()
+        self.hash_list = []
 
     # * input-None
     # * output-None
@@ -147,10 +148,40 @@ class Blockchain():
         self.unconfirmed_transactions = {}
         return new_block.index
 
-flask
-        
+app = Flask(__name__)
+
+blockchain = Blockchain()
+
+@app.route('/new_transaction', methods=['GET', 'POST'])
+def new_transaction():
+    print(1)
+    tx_data = request.get_json()
+    
+ 
+    tx_data["timestamp"] = time.time()
+ 
+    if blockchain.add_transaction(tx_data):
+        return "Success", 201
+    else:
+        return "Invalid transaction data", 404
 
 
+@app.route('/chain', methods=['GET'])
+def get_chain():
+    chain_data = []
+    for block in blockchain.chain:
+        chain_data.append(block.__dict__)
+    return json.dumps({"length": len(chain_data),
+                       "chain": chain_data})
+
+@app.route('/mine', methods=['GET'])
+def mine_unconfirmed_transactions():
+    result = blockchain.mine()
+    if not result:
+        return "No transactions to mine"
+    return "Block #{} is mined.".format(result)
+
+app.run(debug=True, port=8000)
 
 # debug/test code
 # def test():
