@@ -5,14 +5,14 @@ import json
 import requests
 from random import randint
 
+
 # Block class is the most basic storing unit
 # in a Blockchain. 
-class Block():
-    def __init__(self, index, transactions, 
-        time_stamp, previous_hash):
+class Block:
+    def __init__(self, index, transactions, time_stamp, previous_hash):
         self.index = index
         # by convention, data within a blockchain
-        # is called transactions. Here type(transctions)==dict
+        # is called transactions. Here type(transactions)==dict
         self.transactions = transactions
         self.time_stamp = time_stamp
         # blockchain are linked with hash values
@@ -24,20 +24,20 @@ class Block():
         block_string = json.dumps(self.__dict__, sort_keys=True)
         return sha256(block_string.encode()).hexdigest()
 
-# Blockchain class connects all blocks to a 
+
+# Blockchain class connects all blocks to a
 # whole chain
 #
 # **class methods:
-# **viod create_genesis_block(self)
-# **viod last_block(self): when call call instance.last_block
+# **void create_genesis_block(self)
+# **void last_block(self): when call call instance.last_block
 # **string proof_of_work(self, block)
 # **boolean add_block(self, block, proof)
 # **boolean is_valid_proof(self, block, proof)
 # **boolean add_transaction(self, transaction)
 # **boolean check_chain_validity(self)
 # **boolean check_transaction(self, transaction)
-
-class Blockchain():
+class Blockchain:
     def __init__(self):
         # where user's input data or file currently stored
         self.unconfirmed_transactions = {}
@@ -89,7 +89,7 @@ class Blockchain():
 
     # * input-Block object, Hash
     # * output-boolean
-    # * find out whether a Hash is eligable for this block
+    # * find out whether a Hash is eligible for this block
     def is_valid_proof(self, block, proof):
         return (proof.startswith("0" * Blockchain.difficulty) and 
             proof == block.compute_hash())
@@ -99,7 +99,7 @@ class Blockchain():
     # * check whether the current Blockchain is valid
     def check_chain_validity(self):
         previous_hash = 0
-        # check the calidity through Blockchain's base rule
+        # check the validity through Blockchain's base rule
         for block in self.chain:
             block_hash = block.hash
             delattr(block, "hash")
@@ -112,20 +112,20 @@ class Blockchain():
     # * input-dict
     # * output-boolean
     # * check whether submitted transaction is valid
-    #!!!!!!!not debugged!!!!!!!
+    # !!!!!!!not debugged!!!!!!!
     def check_transaction(self, transaction):
         condition = []
         condition.append(transaction["type"] in ["pic", "trans"])
         condition.append("@" not in transaction["uploaded"][1:-1])
-        condition.append(4<=len(transaction)<=5)
+        condition.append(4 <= len(transaction) <= 5)
         return all(condition)
 
     # * input-dict
     # * output-boolean
     # * add unprocessed transaction to Blockchain, return status
-    #!!!!!!!not debugged!!!!!!!
+    # !!!!!!!not debugged!!!!!!!
     def add_transaction(self, transaction):
-        if type(transaction) == dict and check_transaction:
+        if type(transaction) == dict and self.check_transaction():
             self.unconfirmed_transactions = transaction
             return True
         else:
@@ -134,7 +134,7 @@ class Blockchain():
     # * input-None
     # * output-integer
     # * mine transactions to a new block
-    #!!!!!!!not debugged!!!!!!!
+    # !!!!!!!not debugged!!!!!!!
     def mine(self):
         if not self.unconfirmed_transactions:
             return 0
@@ -147,7 +147,7 @@ class Blockchain():
         self.unconfirmed_transactions = {}
         return new_block.index
 
-flask
+
         
 
 
