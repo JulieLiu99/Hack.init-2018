@@ -3,7 +3,6 @@ from hashlib import sha256
 import time
 import json
 import requests
-from random import randint
 
 
 # Block class is the most basic storing unit
@@ -47,7 +46,6 @@ class Blockchain:
         # create a default genesis block 0
         self.hash_dict = {}
         self.create_genesis_block()
-        
 
     # * input-None
     # * output-None
@@ -87,7 +85,6 @@ class Blockchain:
             return False
 
         block.hash = proof
-
 
         self.chain.append(block)
         return True
@@ -160,12 +157,9 @@ class Blockchain:
         return self.chain[self.hash_dict[hash]].transactions
 
 
-
-
 app = Flask(__name__)
 
 blockchain = Blockchain()
-
 
 
 # the address to other participating members of the network
@@ -189,6 +183,7 @@ def new_transaction():
         print("Failed")
         return "Invalid transaction data", 404
 
+
 # endpoint to return the node's copy of the chain.
 # Our application will be using this endpoint to query
 # all the posts to display.
@@ -199,6 +194,7 @@ def get_chain():
         chain_data.append(block.__dict__)
     return json.dumps({"length": len(chain_data),
                        "chain": chain_data})
+
 
 # endpoint to request the node to mine the unconfirmed
 # transactions (if any). We'll be using it to initiate
@@ -211,7 +207,6 @@ def mine_unconfirmed_transactions():
     return "Block #{} is mined.".format(result)
 
 
- 
 # endpoint to add new peers to the network.
 @app.route('/add_nodes', methods=['POST'])
 def register_new_peers():
@@ -222,6 +217,7 @@ def register_new_peers():
         peers.add(node)
  
     return "Success", 201
+
 
 def consensus():
     """
@@ -244,6 +240,7 @@ def consensus():
         blockchain = longest_chain
         return True
     return False
+
 
 # endpoint to add a block mined by someone else to
 # the node's chain. The block is first verified by the node
