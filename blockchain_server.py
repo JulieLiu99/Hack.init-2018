@@ -64,11 +64,11 @@ class Blockchain():
     # * output a hash value meets constraints
     def proof_of_work(self, block):
         Blockchain.difficulty = 3
-        block.nunce = 0
+        block.nonce = 0
         computed_hash = block.compute_hash()
         # generates the hash until find a hash value that is valid
         while not computed_hash.startswith("0" * Blockchain.difficulty):
-            block.nunce += 1
+            block.nonce += 1
             computed_hash = block.compute_hash()
         return computed_hash
 
