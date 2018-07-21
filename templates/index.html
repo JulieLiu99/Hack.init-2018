@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Home - PasteRight</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <style>
+        .outline {
+            -webkit-text-stroke: 3px black;
+        }
+    </style>
+</head>
+<body>
+<nav class="yellow darken-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo black-text">PasteRight</a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="javascript:login()" class="black-text">LOGIN</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+            <li><a href="javascript:login()">Login</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <div style="width: 450px; margin: auto;">
+            <img class="materialboxed hoverable" style="border-radius: 5px" width="450" src="static/img/flow.jpg">
+        </div>
+        <h2 class="header center black-text">Make sure your copyrights <br>are pasted the right way.</h2>
+        <div class="row center">
+            <h5 class="header col s12 light">Decentralized Image Copyright Protection Service</h5>
+        </div>
+        <div class="row center">
+            <button class="btn-large waves-effect waves-light yellow darken-1 black-text">Login</button>
+            <a href="/hashlookup" class="btn-large waves-effect waves-light black lighten-1 yellow-text">Hash Lookup</a>
+        </div>
+        <br>
+
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="section">
+
+        <!--   Icon Section   -->
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center yellow-text outline"><i class="material-icons">flash_on</i></h2>
+                    <h5 class="center">Speed</h5>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center yellow-text outline"><i class="material-icons">verified_user</i></h2>
+                    <h5 class="center">Unhackability</h5>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center yellow-text outline"><i class="material-icons">account_balance_wallet</i></h2>
+                    <h5 class="center">Profitability</h5>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+</div>
+
+<footer class="page-footer yellow darken-1">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="black-text">Project Bio</h5>
+                <p class="black-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright black-text">
+        <div class="container">
+            © PasteRight Project, 2018.
+        </div>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="static/js/materialize.js"></script>
+<script src="static/js/init.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.materialboxed').materialbox();
+    });
+    var login = () => {
+        let username = prompt("Enter your USERNAME");
+        localStorage.setItem("credential", username);
+    }
+</script>
+
+</body>
+</html>
