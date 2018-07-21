@@ -46,6 +46,7 @@ class Blockchain:
         # each time we create a Blockchain we always want to
         # create a default genesis block 0
         self.create_genesis_block()
+        self.hash_list = []
 
     # * input-None
     # * output-None
@@ -76,11 +77,11 @@ class Blockchain:
     # * output-boolean
     # * add a new Block to chain, return appending status
     def add_block(self, block, proof):
-        previous_hash = self.last_block.hash 
+        previous_hash = self.last_block.hash
         # if the to-be added block is invalid
         # return False without adding that block
         if (previous_hash != block.previous_hash
-            ) or (not self.is_valid_proof(block, proof)):
+        ) or (not self.is_valid_proof(block, proof)):
             return False
 
         block.hash = proof
@@ -91,8 +92,8 @@ class Blockchain:
     # * output-boolean
     # * find out whether a Hash is eligible for this block
     def is_valid_proof(self, block, proof):
-        return (proof.startswith("0" * Blockchain.difficulty) and 
-            proof == block.compute_hash())
+        return (proof.startswith("0" * Blockchain.difficulty) and
+                proof == block.compute_hash())
 
     # * input-None
     # * output-boolean
@@ -103,8 +104,8 @@ class Blockchain:
         for block in self.chain:
             block_hash = block.hash
             delattr(block, "hash")
-            if not self.is_valid_proof(block, block_hash) or\
-                previous_hash != block.previous_hash:   
+            if not self.is_valid_proof(block, block_hash) or \
+                    previous_hash != block.previous_hash:
                 return False
             block.hash, previous_hash = block_hash, block_hash
         return True
@@ -150,8 +151,40 @@ class Blockchain:
 
 app = Flask(__name__)
 
+blockchain = Blockchain()
 
 
+@app.route('/new_transaction', methods=['GET', 'POST'])
+def new_transaction():
+    print(1)
+    tx_data = request.get_json()
+
+    tx_data["timestamp"] = time.time()
+
+    if blockchain.add_transaction(tx_data):
+        return "Success", 201
+    else:
+        return "Invalid transaction data", 404
+
+
+@app.route('/chain', methods=['GET'])
+def get_chain():
+    chain_data = []
+    for block in blockchain.chain:
+        chain_data.append(block.__dict__)
+    return json.dumps({"length": len(chain_data),
+                       "chain": chain_data})
+
+
+@app.route('/mine', methods=['GET'])
+def mine_unconfirmed_transactions():
+    result = blockchain.mine()
+    if not result:
+        return "No transactions to mine"
+    return "Block #{} is mined.".format(result)
+
+
+app.run(debug=True, port=8000)
 
 # debug/test code
 # def test():
