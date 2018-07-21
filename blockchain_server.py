@@ -148,7 +148,8 @@ class Blockchain:
         return new_block.index
 
 
-        
+app = Flask(__name__)
+
 
 
 
